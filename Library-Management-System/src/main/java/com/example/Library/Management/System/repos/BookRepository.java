@@ -2,8 +2,32 @@ package com.example.Library.Management.System.repos;
 
 import com.example.Library.Management.System.entities.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
+
+    @Query("""
+    SELECT b FROM Book b
+    JOIN b.authors a
+    WHERE a.name = :authorName
+""")
+
+    List<Book> findBookByAuthorName(@Param( "authorName") String authorName);
+
+
+    @Query(
+            value = """
+    SELECT b.*
+    FROM book b
+    JOIN library l ON b.library_id = l.id
+""",
+            nativeQuery = true
+    )
+
+    List<Book> findAllBookWithLibrary();
 }
