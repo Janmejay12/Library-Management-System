@@ -29,7 +29,6 @@ public class BookMapper {
         return book;
     }
 
-
     public static BookResponseDto toDto(Book book) {
         BookResponseDto response = new BookResponseDto();
         response.setBookId(book.getBookId());
@@ -37,13 +36,18 @@ public class BookMapper {
         response.setIsbn(book.getIsbn());
         response.setPublicationYear(book.getPublicationYear());
 
+        // Set library name
+        if (book.getLibrary() != null) {
+            response.setLibraryName(book.getLibrary().getLibraryName());
+        }
+
+        // Set authors
         response.setAuthors(
                 book.getAuthors()
                         .stream()
                         .map(Author::getAuthorName)
-                        .collect(Collectors.toSet())
-        );
-
+                        .collect(Collectors.toSet()));
 
         return response;
-    }}
+    }
+}

@@ -7,8 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AuthorRepository extends JpaRepository<Author,Long> {
+public interface AuthorRepository extends JpaRepository<Author, Long> {
 
-    @Query("SELECT a FROM Author a WHERE a.name = :name")
+    @Query("SELECT a FROM Author a WHERE a.authorName = :name")
     Author findByName(@Param("name") String name);
 }

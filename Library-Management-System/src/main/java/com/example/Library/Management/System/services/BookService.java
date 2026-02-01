@@ -2,52 +2,25 @@ package com.example.Library.Management.System.services;
 
 import com.example.Library.Management.System.dtos.BookRequestDto;
 import com.example.Library.Management.System.dtos.BookResponseDto;
-import com.example.Library.Management.System.entities.Author;
-import com.example.Library.Management.System.entities.Book;
-import com.example.Library.Management.System.entities.Library;
-import com.example.Library.Management.System.mapper.BookMapper;
-import com.example.Library.Management.System.repos.AuthorRepository;
-import com.example.Library.Management.System.repos.BookRepository;
-import com.example.Library.Management.System.repos.LibraryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-@Service
-public class BookService {
-    private final BookRepository bookRepository;
-    private final LibraryRepository libraryRepository;
-    private final AuthorRepository authorRepository;
+public interface BookService {
 
-    @Autowired
-    public BookService(BookRepository bookRepository, LibraryRepository libraryRepository, AuthorRepository authorRepository) {
-        this.bookRepository = bookRepository;
-        this.libraryRepository = libraryRepository;
-        this.authorRepository = authorRepository;
-    }
+    BookResponseDto create(BookRequestDto dto);
 
-    public BookResponseDto createBook(BookRequestDto dto){
-        //Library library = libraryRepository.findById(dto.getLibraryId()).orElseThrow(() -> new RuntimeException("Library not found"));
+    BookResponseDto getById(Long id);
 
-        List<Author> authors = authorRepository.findAllById(dto.getAuthorIds());
-                //.stream().collect(Collectors.toSet());
+    BookResponseDto update(Long id, BookRequestDto dto);
 
-        Book book = BookMapper.toEntity(dto, authors);
-        Book saved = bookRepository.save(book);
+    void delete(Long id);
 
-        return BookMapper.toDto(saved);
-    }
+    Page<BookResponseDto> getAll(int page, int size, String sortBy);
 
-    public List<Book>  findBookByAuthorName(String name){
+    List<BookResponseDto> search(String title, Integer year, String library);
 
-        return bookRepository.findBookByAuthorName(name);
-    }
+    List<BookResponseDto> byAuthor(String name);
 
-    public List<Book> findAllBookWithLibrary(String name){
-        return bookRepository.findAllBookWithLibrary(name);
-    }
-
+    List<BookResponseDto> byTitleNative(String title);
 }

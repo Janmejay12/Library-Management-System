@@ -1,26 +1,20 @@
 package com.example.Library.Management.System.services;
 
-import com.example.Library.Management.System.dtos.CreateAuthorRequest;
-import com.example.Library.Management.System.entities.Author;
-import com.example.Library.Management.System.repos.AuthorRepository;
-import org.springframework.stereotype.Service;
+import com.example.Library.Management.System.dtos.AuthorRequestDto;
+import com.example.Library.Management.System.dtos.AuthorResponseDto;
 
-@Service
-public class AuthorService {
-    private final AuthorRepository authorRepository;
+import java.util.List;
 
-    public AuthorService(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
+public interface AuthorService {
+    AuthorResponseDto create(AuthorRequestDto dto);
 
-    public Author createAuthor(CreateAuthorRequest request){
+    AuthorResponseDto getById(Long id);
 
-        Author author = new Author();
-        author.setAuthorName(request.getAuthorName());
-        author.setBiography(request.getBiography());
-        author.setBooks(request.getBooks());
-        authorRepository.save(author);
-        return author;
+    AuthorResponseDto update(Long id, AuthorRequestDto dto);
 
-    }
+    void delete(Long id);
+
+    List<AuthorResponseDto> getAll();
+
+    AuthorResponseDto findByName(String name);
 }
