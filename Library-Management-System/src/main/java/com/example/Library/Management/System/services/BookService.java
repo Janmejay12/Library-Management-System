@@ -30,15 +30,24 @@ public class BookService {
     }
 
     public BookResponseDto createBook(BookRequestDto dto){
-        Library library = libraryRepository.findById(dto.getLibraryId()).orElseThrow(() -> new RuntimeException("Library not found"));
+        //Library library = libraryRepository.findById(dto.getLibraryId()).orElseThrow(() -> new RuntimeException("Library not found"));
 
-        Set<Author> authors = authorRepository.findAllById(dto.getAuthorIds())
-                .stream().collect(Collectors.toSet());
+        List<Author> authors = authorRepository.findAllById(dto.getAuthorIds());
+                //.stream().collect(Collectors.toSet());
 
-        Book book = BookMapper.toEntity(dto,library, (List<Author>) authors);
+        Book book = BookMapper.toEntity(dto, authors);
         Book saved = bookRepository.save(book);
 
         return BookMapper.toDto(saved);
+    }
+
+    public List<Book>  findBookByAuthorName(String name){
+
+        return bookRepository.findBookByAuthorName(name);
+    }
+
+    public List<Book> findAllBookWithLibrary(String name){
+        return bookRepository.findAllBookWithLibrary(name);
     }
 
 }

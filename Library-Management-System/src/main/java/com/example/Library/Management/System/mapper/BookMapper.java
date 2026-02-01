@@ -16,8 +16,16 @@ public class BookMapper {
         book.setIsbn(bookRequest.getIsbn());
         book.setPublicationYear(bookRequest.getPublicationYear());
         book.setLibrary(library);
-        List<Author> authorsList = authors;
-        book.setAuthors(authorsList);
+        book.setAuthors(authors);
+        return book;
+    }
+
+    public static Book toEntity(BookRequestDto bookRequest, List<Author> authors) {
+        Book book = new Book();
+        book.setBookTitle(bookRequest.getTitle());
+        book.setIsbn(bookRequest.getIsbn());
+        book.setPublicationYear(bookRequest.getPublicationYear());
+        book.setAuthors(authors);
         return book;
     }
 
@@ -28,7 +36,6 @@ public class BookMapper {
         response.setBookTitle(book.getBookTitle());
         response.setIsbn(book.getIsbn());
         response.setPublicationYear(book.getPublicationYear());
-        response.setLibraryName(book.getLibrary().getLibraryName()); // Assuming Library has getName()
 
         response.setAuthors(
                 book.getAuthors()

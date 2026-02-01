@@ -25,7 +25,7 @@ public class Book {
     private Year publicationYear;
 
     @ManyToOne()
-    @JoinColumn(name = "library_id", nullable = false)
+    @JoinColumn(name = "library_id",nullable = false)
     private Library library;
 
     @ManyToMany
